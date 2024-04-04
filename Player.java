@@ -1,3 +1,4 @@
+import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Scanner;
 import java.lang.Math;
@@ -75,6 +76,9 @@ public class Player implements Contract {
         this.size = size;
     }
 
+    /**
+     * Check the strength of the player: return true if the strength is bigger than 0
+     */
     public boolean checkStrength(){
         return this.strength > 0.0;
     }
@@ -125,7 +129,7 @@ public class Player implements Contract {
                     return "Wise choice! You have successfully remove " + item + " from your inventory.";
                 }
                 else{
-                    return "Your " + item + " still has " + utilizability + "utilizability... Do you really consider dropping it?";
+                    return "Your " + item + " still has " + utilizability + " utilizability... Do you really want to drop it?";
                 }
             }
         }
@@ -134,6 +138,22 @@ public class Player implements Contract {
         }
     }
 
+    /**
+     * Print the items inside the inventory
+     */
+    public void printItem(){
+        Enumeration<String> keys = this.inventory.keys();
+        int num = 1;    // Simply indicate the number of the item
+        while(keys.hasMoreElements()){
+            System.out.println("Item " + num + ": " + keys.nextElement());
+            num++;
+        }
+    }
+
+    /**
+     * Examine the utilizability of the item
+     * @param item the name of the item you want to examine
+     */
     public void examine(String item){
         if (checkStrength()){
             if (this.inventory.containsKey(item)){
@@ -150,6 +170,10 @@ public class Player implements Contract {
         }
     }
 
+    /**
+     * Use the item
+     * @param item the name of the item you want to use
+     */
     public void use(String item){
         if (checkStrength()){
             int utilizability = this.inventory.get(item);
@@ -164,6 +188,19 @@ public class Player implements Contract {
         }
     }
 
+    /**
+     * Walk around
+     * x coordinate + 1, if walking to the right/ east
+     * x coordinate - 1, if walking to the left/ west
+     * y coordinate + 1, if walking up/ to the north
+     * y coordinate - 1, if walking down/ to the south
+     * x coordinate + 1, y cooridinate + 1 if walking to the upper-right/ north-east
+     * x coordinate + 1, y cooridinate - 1 if walking to the upper-left/ north-west
+     * x coordinate - 1, y cooridinate + 1 if walking to the lower-right/ south-east
+     * x coordinate - 1, y cooridinate - 1 if walking to the lower-left/ south-west
+     * A movement of distance 1 would use up 10 strengths
+     * If not typing in specific directions, would just walk in the direction you like for distance 1 each time
+     */
     public boolean walk(String direction){
         while(checkStrength()){
             if (direction.contains("right") || direction.contains("east")){
@@ -219,6 +256,11 @@ public class Player implements Contract {
         return false;
     }
 
+    /**
+     * Fly to some place with certain speed
+     * @param x the change in x coordinate each moment
+     * @param y the change in y coordinate each moment
+     */
     public boolean fly(int x, int y){
         while (checkStrength()){
             this.x -= x;
@@ -230,21 +272,30 @@ public class Player implements Contract {
         return false;
     }
 
+    /**
+     * Shrink by a factor of two: return the new size
+     */
     public Number shrink(){
         return this.size / 2;
     }
 
+    /**
+     * Grow by a factor of two: return the new size
+     */
     public Number grow(){
         return this.size * 2;
     }
 
+    /**
+     * Have a rest: recharging strength by 50
+     */
     public void rest(){
         this.strength += 50;
         System.out.println("You're now having a rest.");
     }
 
     public void undo(){
-
+        
     }
 
     public static void main(String[] args) {
@@ -252,6 +303,8 @@ public class Player implements Contract {
         newPlayer.grab("Thing");
         newPlayer.grab("a");
         newPlayer.grab("B");
-        newPlayer.drop("a");
+        newPlayer.printItem();
+        newPlayer.examine("Thing");
+        System.out.println(newPlayer.drop("a"));
     }
 }
