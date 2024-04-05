@@ -21,7 +21,7 @@ _____ 10 pts: The class meaningfully implements each of the methods in described
       __**YES**___ `Number shrink();`
       __**YES**___ `Number grow();`
       __**YES**___ `void rest();`
-      _____ `void undo();`
+      __**PART**___ `void undo();`
 
 
 ## General Items:
