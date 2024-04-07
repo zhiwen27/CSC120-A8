@@ -6,5 +6,7 @@ My class represent a new player, which has basic attributes of name, size, stren
 The class has additional methods:
 checkStrength(), which returns whether the player has enough strength to carry on movements or simply need a rest
 printItem(), which print all the items in the inventory
+clone(), overload the clone method from the Object class so as to create a deep copy of the Player to get back to the previous stage for the undo() method
+hashTableclone(), create a deep copy of the hashtable for the changes in the inventory
 - What worked, what didn't, what advice would you give someone taking this course in the future?
-I am a bit confused about how to write undo() method.
+I think the undo() method may function properly...? Actually, I don't even kwow how I succeed... but it seems that it does work!
