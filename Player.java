@@ -196,7 +196,7 @@ public class Player implements Contract, Cloneable{
                     newPlayer.inventory = inventoryCopy;
                     Player newPlayerCopy = (Player) newPlayer.clone();
                     Undo.add(newPlayerCopy);
-                    this.inventory.remove(item);
+                    this.inventory.remove(item);    // would remove the item but leaving space for probably undo this process
                     return "Your " + item + " still has " + utilizability + " utilizability... Do you really want to drop it?";
                 }
             }
@@ -247,7 +247,7 @@ public class Player implements Contract, Cloneable{
                 Player newPlayer = this;
                 Player newPlayerCopy = (Player) newPlayer.clone();
                 Undo.add(newPlayerCopy);
-                System.out.println("Sorry, you don't have " + item + "yet, try discover it!");
+                System.out.println("Sorry, you don't have " + item + " yet, try discover it!");
             }
         }
         else{
@@ -261,18 +261,26 @@ public class Player implements Contract, Cloneable{
      */
     public void use(String item){
         if (checkStrength()){
-            int utilizability = this.inventory.get(item);
-            if (utilizability > 0){
-                this.strength -= 5.0;
-                utilizability -= 10;    // assuming using the item each time would reduce its utilizability by 10;
-                Player newPlayer = this;
-                Player newPlayerCopy = (Player) newPlayer.clone();
-                Undo.add(newPlayerCopy);
-                this.inventory.put(item,utilizability);
+            if(this.inventory.containsKey(item)){
+                int utilizability = this.inventory.get(item);
+                if (utilizability > 0){
+                    this.strength -= 5.0;
+                    utilizability -= 10;    // assuming using the item each time would reduce its utilizability by 10;
+                    Player newPlayer = this;
+                    Player newPlayerCopy = (Player) newPlayer.clone();
+                    Undo.add(newPlayerCopy);
+                    this.inventory.put(item,utilizability);
+                }
+                else{
+                    System.out.println("Sorry, your " + item + " is running out of utilizability. Try find another one or simply just drop it!");
+                }
             }
             else{
-                System.out.println("Sorry, your " + item + " is running out of utilizability. Try find another one or simply just drop it!");
+                System.out.println("Sorry, you don't have " + item + " yet, try discover it!");
             }
+        }
+        else{
+            System.out.println("You're running out of strength. Take a rest now!");
         }
     }
 
@@ -440,17 +448,24 @@ public class Player implements Contract, Cloneable{
     public void undo(){
         Undo.removeLast();
         System.out.println(Undo.getLast());
-        // throw new RuntimeException("You have know undone your process. Please start over!");
+        throw new RuntimeException("You have know undone your process. Please start over!");
     }
 
     public static void main(String[] args) {
         Player newPlayer = new Player("A");
+        System.out.println(newPlayer);
         //newPlayer.undo();
-        newPlayer.grab("Item 1");
-        newPlayer.grab("Item 2");
-        System.out.println(newPlayer.drop("Item 2"));
+        newPlayer.grab("Sword 1");
+        newPlayer.grab("Sword 2");
+        newPlayer.grab("Sword 3");
+        System.out.println(newPlayer.drop("Sword 2"));
+        System.out.println(newPlayer.drop("Sword 3"));
+        newPlayer.use("Sword 3");
+        //newPlayer.examine("Item 1");
+        //System.out.println(newPlayer);
+        newPlayer.walk("right");
+        System.out.println(newPlayer);
         newPlayer.undo();
-        //newPlayer.grow();
         //System.out.println(newPlayer);
         //System.out.println(newPlayer.printItem());
         //newPlayer.examine("Thing");
