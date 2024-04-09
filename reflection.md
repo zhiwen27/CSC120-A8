@@ -10,3 +10,4 @@ clone(), overload the clone method from the Object class so as to create a deep 
 hashTableclone(), create a deep copy of the hashtable for the changes in the inventory
 - What worked, what didn't, what advice would you give someone taking this course in the future?
 I think the undo() method may function properly...? Actually, I don't even kwow how I succeed... but it seems that it does work!
+Something needa to be improved is the printing, sometimes not doing printlns would make the output look crowded together.
