@@ -1,9 +1,6 @@
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.Hashtable;
-import java.util.Map;
-import java.util.Scanner;
 import java.util.Set;
 import java.lang.Math;
 public class Player implements Contract, Cloneable{
