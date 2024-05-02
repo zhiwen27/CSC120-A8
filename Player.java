@@ -15,7 +15,7 @@ public class Player implements Contract, Cloneable{
     private double strength;
     protected Hashtable<String, Integer> inventory;
     protected int maxCapacity;
-    protected ArrayList<Player> Undo = new ArrayList<>();
+    protected ArrayList<Player> undo = new ArrayList<>();
 
     /**
      * Default Constructor: Intialize the inventory of the user and set its maxcapacity to be 10
@@ -32,7 +32,7 @@ public class Player implements Contract, Cloneable{
         this.inventory = new Hashtable<>(this.maxCapacity);
         Player newPlayer = this;
         Player newPlayerCopy = (Player) newPlayer.clone();
-        Undo.add(newPlayerCopy);
+        undo.add(newPlayerCopy);
     }
 
     /**
@@ -44,7 +44,7 @@ public class Player implements Contract, Cloneable{
         this.name = name;
         Player newPlayer = this;
         Player newPlayerCopy = (Player) newPlayer.clone();
-        Undo.add(newPlayerCopy);
+        undo.add(newPlayerCopy);
     }
 
     /**
@@ -58,7 +58,7 @@ public class Player implements Contract, Cloneable{
         this.maxCapacity = max;
         Player newPlayer = this;
         Player newPlayerCopy = (Player) newPlayer.clone();
-        Undo.add(newPlayerCopy);
+        undo.add(newPlayerCopy);
     }
 
     /**
@@ -74,7 +74,7 @@ public class Player implements Contract, Cloneable{
         this.y = y;
         Player newPlayer = this;
         Player newPlayerCopy = (Player) newPlayer.clone();
-        Undo.add(newPlayerCopy);
+        undo.add(newPlayerCopy);
     }
 
     /**
@@ -92,7 +92,7 @@ public class Player implements Contract, Cloneable{
         this.size = size;
         Player newPlayer = this;
         Player newPlayerCopy = (Player) newPlayer.clone();
-        Undo.add(newPlayerCopy);
+        undo.add(newPlayerCopy);
     }
 
     /**
@@ -112,11 +112,10 @@ public class Player implements Contract, Cloneable{
      * @param h the previous inventory you want to copy
      * @return the copied inventory
      */
-    public Hashtable hashTableClone(Hashtable h){
-        Hashtable copy = new Hashtable<String, Integer>();
+    public Hashtable<String, Integer> hashTableClone(Hashtable<String, Integer> h){
+        Hashtable<String, Integer> copy = new Hashtable<String, Integer>();
         Set<String> setOfKeys = h.keySet();
-        for (String key : setOfKeys) {
-            // Print and display the Rank and Name
+        for (String key: setOfKeys) {
             copy.put(key, h.get(key));
         }
         return copy;
@@ -143,21 +142,21 @@ public class Player implements Contract, Cloneable{
                     int utilizability = this.inventory.get(item);
                     utilizability += 50;    // assuming getting the same time would add 50 more utilizability to the item
                     this.strength -= 5.0;
-                    Hashtable inventoryCopy = this.hashTableClone(this.inventory);
+                    Hashtable<String, Integer> inventoryCopy = this.hashTableClone(this.inventory);
                     Player newPlayer = this;
                     newPlayer.inventory = inventoryCopy;
                     Player newPlayerCopy = (Player) newPlayer.clone();
-                    Undo.add(newPlayerCopy);
+                    undo.add(newPlayerCopy);
                     this.inventory.put(item, utilizability);
                     System.out.println("Great! Your " + item + " now has " + utilizability + " utilizability!");
                 }
                 else{
                     this.strength -= 5.0;
-                    Hashtable inventoryCopy = this.hashTableClone(this.inventory);
+                    Hashtable<String, Integer> inventoryCopy = this.hashTableClone(this.inventory);
                     Player newPlayer = this;
                     newPlayer.inventory = inventoryCopy;
                     Player newPlayerCopy = (Player) newPlayer.clone();
-                    Undo.add(newPlayerCopy);
+                    undo.add(newPlayerCopy);
                     this.inventory.put(item, 100);    // initializing each item with 100 utilizability
                     System.out.println("Congratulations! You have discovered a new item: " + item + "!" + " Your " + item + " now has 100 utilizability!");
                 }
@@ -181,21 +180,21 @@ public class Player implements Contract, Cloneable{
                 int utilizability = this.inventory.get(item);
                 if (utilizability == 0){
                     this.strength -= 5.0;
-                    Hashtable inventoryCopy = this.hashTableClone(this.inventory);
+                    Hashtable<String, Integer> inventoryCopy = this.hashTableClone(this.inventory);
                     Player newPlayer = this;
                     newPlayer.inventory = inventoryCopy;
                     Player newPlayerCopy = (Player) newPlayer.clone();
-                    Undo.add(newPlayerCopy);
+                    undo.add(newPlayerCopy);
                     this.inventory.remove(item);
                     return "Wise choice! You have successfully remove " + item + " from your inventory.";
                 }
                 else{
                     this.strength -= 5.0;
-                    Hashtable inventoryCopy = this.hashTableClone(this.inventory);
+                    Hashtable<String, Integer> inventoryCopy = this.hashTableClone(this.inventory);
                     Player newPlayer = this;
                     newPlayer.inventory = inventoryCopy;
                     Player newPlayerCopy = (Player) newPlayer.clone();
-                    Undo.add(newPlayerCopy);
+                    undo.add(newPlayerCopy);
                     this.inventory.remove(item);    // would remove the item but leaving space for probably undo this process
                     return "Your " + item + " still has " + utilizability + " utilizability... Do you really want to drop it?";
                 }
@@ -239,14 +238,14 @@ public class Player implements Contract, Cloneable{
                 this.strength -= 2.0;
                 Player newPlayer = this;
                 Player newPlayerCopy = (Player) newPlayer.clone();
-                Undo.add(newPlayerCopy);
+                undo.add(newPlayerCopy);
                 System.out.println("Your " + item + " now has " + this.inventory.get(item) + " utilizability!");
             }
             else{
                 this.strength -= 2.0;
                 Player newPlayer = this;
                 Player newPlayerCopy = (Player) newPlayer.clone();
-                Undo.add(newPlayerCopy);
+                undo.add(newPlayerCopy);
                 System.out.println("Sorry, you don't have " + item + " yet, try discover it!");
             }
         }
@@ -268,7 +267,7 @@ public class Player implements Contract, Cloneable{
                     utilizability -= 10;    // assuming using the item each time would reduce its utilizability by 10;
                     Player newPlayer = this;
                     Player newPlayerCopy = (Player) newPlayer.clone();
-                    Undo.add(newPlayerCopy);
+                    undo.add(newPlayerCopy);
                     this.inventory.put(item,utilizability);
                 }
                 else{
@@ -294,17 +293,17 @@ public class Player implements Contract, Cloneable{
      * x coordinate + 1, y cooridinate - 1 if walking to the upper-left/ north-west
      * x coordinate - 1, y cooridinate + 1 if walking to the lower-right/ south-east
      * x coordinate - 1, y cooridinate - 1 if walking to the lower-left/ south-west
-     * A movement of distance 1 would use up 10 strengths
-     * If not typing in specific directions, would just walk in the direction you like for distance 1 each time
+     * A movement would use up 10 strengths (ignore that walking to the corners would actually take more strength)
+     * If not enter specific directions, would just walk in the direction you like for distance 1
      */
     public boolean walk(String direction){
-        while(checkStrength()){
+        if ((this.strength - 10) > 0){
             if (direction.contains("right") || direction.contains("east")){
                 this.x += 1;
                 this.strength -= 10.0;
                 Player newPlayer = this;
                 Player newPlayerCopy = (Player) newPlayer.clone();
-                Undo.add(newPlayerCopy);
+                undo.add(newPlayerCopy);
                 System.out.println("You're now at (" + this.x + "," + this.y + ").");
             }
             else if (direction.contains("left") || direction.contains("west")){
@@ -312,7 +311,7 @@ public class Player implements Contract, Cloneable{
                 this.strength -= 10.0;
                 Player newPlayer = this;
                 Player newPlayerCopy = (Player) newPlayer.clone();
-                Undo.add(newPlayerCopy);
+                undo.add(newPlayerCopy);
                 System.out.println("You're now at (" + this.x + "," + this.y + ").");
             }
             else if (direction.contains("up") || direction.contains("north")){
@@ -320,7 +319,7 @@ public class Player implements Contract, Cloneable{
                 this.strength -= 10.0;
                 Player newPlayer = this;
                 Player newPlayerCopy = (Player) newPlayer.clone();
-                Undo.add(newPlayerCopy);
+                undo.add(newPlayerCopy);
                 System.out.println("You're now at (" + this.x + "," + this.y + ").");
             }
             else if (direction.contains("down") || direction.contains("south")){
@@ -328,54 +327,56 @@ public class Player implements Contract, Cloneable{
                 this.strength -= 10.0;
                 Player newPlayer = this;
                 Player newPlayerCopy = (Player) newPlayer.clone();
-                Undo.add(newPlayerCopy);
+                undo.add(newPlayerCopy);
                 System.out.println("You're now at (" + this.x + "," + this.y + ").");
             }
             else if (direction.contains("upper-right") || direction.contains("north-east")){
                 this.x += 1;
                 this.y += 1;
-                this.strength -= 10.0 * Math.sqrt(2);
+                this.strength -= 10.0;
                 Player newPlayer = this;
                 Player newPlayerCopy = (Player) newPlayer.clone();
-                Undo.add(newPlayerCopy);
+                undo.add(newPlayerCopy);
                 System.out.println("You're now at (" + this.x + "," + this.y + ").");
             }
             else if (direction.contains("upper-left") || direction.contains("north-west")){
                 this.x -= 1;
                 this.y += 1;
-                this.strength -= 10.0 * Math.sqrt(2);
+                this.strength -= 10.0;
                 Player newPlayer = this;
                 Player newPlayerCopy = (Player) newPlayer.clone();
-                Undo.add(newPlayerCopy);
+                undo.add(newPlayerCopy);
                 System.out.println("You're now at (" + this.x + "," + this.y + ").");
             }
             else if (direction.contains("lower-right") || direction.equals("south-east")){
                 this.x += 1;
                 this.y -= 1;
-                this.strength -= 10.0 * Math.sqrt(2);
+                this.strength -= 10.0;
                 Player newPlayer = this;
                 Player newPlayerCopy = (Player) newPlayer.clone();
-                Undo.add(newPlayerCopy);
+                undo.add(newPlayerCopy);
                 System.out.println("You're now at (" + this.x + "," + this.y + ").");
             }
             else if (direction.contains("lower-left") || direction.equals("south-west")){
                 this.x -= 1;
                 this.y -= 1;
-                this.strength -= 10.0 * Math.sqrt(2);
+                this.strength -= 10.0;
                 Player newPlayer = this;
                 Player newPlayerCopy = (Player) newPlayer.clone();
-                Undo.add(newPlayerCopy);
+                undo.add(newPlayerCopy);
                 System.out.println("You're now at (" + this.x + "," + this.y + ").");
             }
             else{
                 this.strength -= 10.0;
                 Player newPlayer = this;
                 Player newPlayerCopy = (Player) newPlayer.clone();
-                Undo.add(newPlayerCopy);
+                undo.add(newPlayerCopy);
                 System.out.println("You're now walking to the " + direction + ".");
             }
         }
-        System.out.println("You don't have enough strength to walk any more. Take a rest!");
+        else{
+            System.out.println("You don't have the strength to walk. Take a rest!");
+        }
         return false;
     }
 
@@ -385,16 +386,18 @@ public class Player implements Contract, Cloneable{
      * @param y the change in y coordinate each moment
      */
     public boolean fly(int x, int y){
-        while (checkStrength()){
-            this.x -= x;
-            this.y -= y;
-            this.strength -= 10.0 * Math.sqrt(x * x + y * y);
+        if ((this.strength - 10.0 * Math.sqrt((x - this.x) * (x - this.x) + (y - this.y) * (y - this.y))) > 0){
+            this.x += x;
+            this.y += y;
+            this.strength -= 10.0 * Math.sqrt((x - this.x) * (x - this.x) + (y - this.y) * (y - this.y));
             Player newPlayer = this;
             Player newPlayerCopy = (Player) newPlayer.clone();
-            Undo.add(newPlayerCopy);
+            undo.add(newPlayerCopy);
             System.out.println("You're now at (" + this.x + "," + this.y + ").");
         }
-        System.out.println("You don't have enough strength to fly any more. Take a rest!");
+        else{
+            System.out.println("You don't have the strength to fly to the destination. Take a rest or change your target!");
+        }
         return false;
     }
 
@@ -405,7 +408,7 @@ public class Player implements Contract, Cloneable{
         this.size /= 2;
         Player newPlayer = this;
         Player newPlayerCopy = (Player) newPlayer.clone();
-        Undo.add(newPlayerCopy);
+        undo.add(newPlayerCopy);
         return this.size;
     }
 
@@ -416,7 +419,7 @@ public class Player implements Contract, Cloneable{
         this.size *= 2;
         Player newPlayer = this;
         Player newPlayerCopy = (Player) newPlayer.clone();
-        Undo.add(newPlayerCopy);
+        undo.add(newPlayerCopy);
         return this.size;
     }
 
@@ -427,7 +430,7 @@ public class Player implements Contract, Cloneable{
         this.strength += 50;
         Player newPlayer = this;
         Player newPlayerCopy = (Player) newPlayer.clone();
-        Undo.add(newPlayerCopy);
+        undo.add(newPlayerCopy);
         System.out.println("You're now having a rest.");
     }
 
@@ -443,11 +446,12 @@ public class Player implements Contract, Cloneable{
     }
 
     /**
-     * Undo: get back to the previous step and throw an exception
+     * undo: get back to the previous step and throw an exception
      */
     public void undo(){
-        Undo.removeLast();
-        System.out.println(Undo.getLast());
+        // I think the removeLast and getLast methods work on my computer, I am a bit confused that it doesn't work in the submission
+        undo.remove(undo.size() - 1);
+        System.out.println(undo.get(undo.size() - 1));
         throw new RuntimeException("You have know undone your process. Please start over!");
     }
 
@@ -465,7 +469,9 @@ public class Player implements Contract, Cloneable{
         //System.out.println(newPlayer);
         newPlayer.walk("right");
         System.out.println(newPlayer);
-        newPlayer.undo();
+        newPlayer.fly(1, 0);
+        System.out.println(newPlayer);
+        //newPlayer.undo();
         //System.out.println(newPlayer);
         //System.out.println(newPlayer.printItem());
         //newPlayer.examine("Thing");
