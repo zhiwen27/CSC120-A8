@@ -449,7 +449,7 @@ public class Player implements Contract, Cloneable{
         // I think the removeLast and getLast methods work on my computer, I am a bit confused that it doesn't work in the submission
         undo.remove(undo.size() - 1);
         System.out.println(undo.get(undo.size() - 1));
-        throw new RuntimeException("You have know undone your process. Please start over!");
+        throw new RuntimeException("You have now undone your process. Please start over!");
     }
 
     public static void main(String[] args) {
